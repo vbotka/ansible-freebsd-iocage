@@ -11,6 +11,8 @@ vbotka.freebsd_iocage 1.0 Release Notes
 Release Summary
 ---------------
 
+Initial commit to GitHub.
+
 Major Changes
 -------------
 
