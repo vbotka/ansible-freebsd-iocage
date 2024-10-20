@@ -1,0 +1,16 @@
+---
+# vars for freebsd_iocage
+
+freebsd_iocage_activate: true
+freebsd_iocage_zfs_pool: iocage
+freebsd_iocage_zfs_ds: /iocage/iocage
+
+freebsd_iocage_sanity_zfs_pool_active: true
+
+freebsd_iocage_defaults_update:
+  allow_mount: 1
+
+freebsd_iocage_rcconf:
+  - {regexp: iocage_lang, val: "{{ freebsd_iocage_lang }}"}
+
+# EOF

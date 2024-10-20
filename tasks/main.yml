@@ -1,0 +1,32 @@
+---
+# tasks for freebsd_iocage
+
+- name: Import debug.yml
+  ansible.builtin.import_tasks: debug.yml
+  when: freebsd_iocage_debug | bool
+  tags: freebsd_iocage_debug
+
+- name: Import pkg.yml
+  ansible.builtin.import_tasks: pkg.yml
+  when: freebsd_iocage_install | bool
+  tags: freebsd_iocage_pkg
+
+- name: Import activate.yml
+  ansible.builtin.import_tasks: activate.yml
+  when: freebsd_iocage_activate | bool
+  tags: freebsd_iocage_activate
+
+- name: Import sanity.yml
+  ansible.builtin.import_tasks: sanity.yml
+  when: freebsd_iocage_sanity | bool
+  tags: freebsd_iocage_sanity
+
+- name: Import conf.yml
+  ansible.builtin.import_tasks: conf.yml
+  tags: freebsd_iocage_conf
+
+- name: Import rcconf.yml
+  ansible.builtin.import_tasks: rcconf.yml
+  tags: freebsd_iocage_rcconf
+
+# EOF

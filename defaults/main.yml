@@ -1,0 +1,66 @@
+---
+# defaults for freebsd_iocage
+freebsd_iocage_role_version: 0.1.0
+
+freebsd_iocage_install: true
+freebsd_iocage_enable: true
+freebsd_iocage_start: false
+freebsd_iocage_restart: false
+freebsd_iocage_stop: false
+freebsd_iocage_debug: false
+freebsd_iocage_backup_conf: false
+
+# packages and ports
+freebsd_install_method: packages
+# freebsd_install_method: ports
+freebsd_use_packages: true
+freebsd_install_retries: 10
+freebsd_install_delay: 5
+freebsd_iocage_packages:
+  - sysutils/iocage
+
+# lang
+freebsd_iocage_lang: "en_US.UTF-8"
+
+# Activate iocage if true
+freebsd_iocage_activate: false
+# End the host if the activation fails
+freebsd_iocage_activate_fatal: true
+
+# Sanity enable
+freebsd_iocage_sanity: true
+# Service start, restart, and stop are mutually eclusive
+freebsd_iocage_sanity_service: true
+# Mandatory environment
+freebsd_iocage_sanity_env: true
+# Mandatory fstab entry
+freebsd_iocage_sanity_fdesc: true
+# Mandatory kernel options
+freebsd_iocage_sanity_kernel: true
+# Mandatory loader options
+freebsd_iocage_sanity_loader: true
+# Not running in jail
+freebsd_iocage_sanity_injail: true
+# Test ZFS
+freebsd_iocage_sanity_zfs: true
+# ZFS pool exists
+freebsd_iocage_sanity_zfs_pool_exists: true
+# ZFS dataset was activated
+freebsd_iocage_sanity_zfs_pool_active: false
+
+# ZFS pool to activate iocage
+freebsd_iocage_zfs_pool: zroot
+# ZFS dataset for iocage
+freebsd_iocage_zfs_ds: "/{{ freebsd_iocage_zfs_pool }}/iocage"
+
+# Update iocage default configuration
+freebsd_iocage_defaults_update: {}
+# Allow override integers
+freebsd_iocage_defaults_override_int: false
+# Allow override boolean
+freebsd_iocage_defaults_override_bool: false
+
+# Configure /etc/rc.conf
+freebsd_iocage_rcconf: []
+
+# EOF
