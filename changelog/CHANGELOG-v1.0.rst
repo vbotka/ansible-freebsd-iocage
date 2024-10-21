@@ -17,6 +17,8 @@ Major Changes
 
 Minor Changes
 -------------
+* Tasks formatting improved.
+* Add backup option for defaults.json
 
 
 0.1.0

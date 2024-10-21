@@ -13,7 +13,7 @@
       ansible.builtin.assert:
         that: result.stat.exists
         fail_msg: "[ERR] {{ freebsd_iocage_zfs_ds }}/defaults.json is missing."
-        success_msg: "[OK ] {{ freebsd_iocage_zfs_ds }}/defaults.json exists."
+        success_msg: "[OK]  {{ freebsd_iocage_zfs_ds }}/defaults.json exists."
 
     - name: "Conf: Read {{ freebsd_iocage_zfs_ds ~ '/defaults.json' }}"
       register: result
@@ -63,5 +63,6 @@
         owner: root
         group: wheel
         mode: "0644"
+        backup: "{{ freebsd_iocage_backup_conf | bool }}"
 
 # EOF

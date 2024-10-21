@@ -36,7 +36,7 @@
   ansible.builtin.assert:
     that:
       - freebsd_iocage_enable | bool or freebsd_iocage_rcvar.iocage_enable | upper == 'YES'
-    fail_msg: "[ERR]  Service start, restart, or stop is active and service is disabled."
+    fail_msg: "[ERR] Service start, restart, or stop is active and service is disabled."
     success_msg: "[OK]  Service start, restart, or stop is active and service is enabled."
 
 - name: Enable iocage
