@@ -77,7 +77,7 @@ freebsd_iocage_defaults_update:
 ```
 
 * By default, the *iocage* service is enabled, but not started because
-  the command */usr/local/etc/rc.d/iocage start * is not
+  the command */usr/local/etc/rc.d/iocage start* is not
   idempotent. This means, the role will always report *changed* when
   you enable *freebsd_iocage_start*
 
@@ -106,7 +106,7 @@ freebsd_iocage_sanity_service: true
 
 1) Change shell on the remote host to /bin/sh if necessary
 
-```
+```bash
 shell> ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod admin -s /bin/sh'
 ```
 
@@ -182,6 +182,7 @@ Optionally, activate iocage
 
 ```bash
 shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_activate -e freebsd_iocage_activate=true
+```
 
 Run sanity tests
 
@@ -211,7 +212,7 @@ shell> ansible-playbook freebsd_iocage.yml
 ### Start iocage
 
 By default, the *iocage* service is enabled, but not started because
-the command */usr/local/etc/rc.d/iocage start * is not
+the command */usr/local/etc/rc.d/iocage start* is not
 idempotent. Keep this default and start the service by extra vars
 
 ```bash
