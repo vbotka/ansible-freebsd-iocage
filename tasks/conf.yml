@@ -1,5 +1,11 @@
 ---
 
+- name: "Conf: Configure /etc/sysctl.conf"
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop: "{{ freebsd_iocage_sysctl_update | dict2items }}"
+
 - name: Configure defaults.json
   when: freebsd_iocage_defaults_update
   block:

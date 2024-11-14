@@ -3,22 +3,24 @@
 [![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-iocage.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-iocage)
 [![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-iocage)](https://github.com/vbotka/ansible-freebsd-iocage/tags)
 
-[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_iocage/) FreeBSD. Install, configure, and start iocage.
+[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_iocage/) FreeBSD. Install, configure, and run iocage.
 
 Feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-iocage/issues).
 
 [Contributions are welcome](https://github.com/firstcontributions/first-contributions).
 
-By default, the role installs *iocage*, tests sanity, and starts the *iocage*
-service. Optionally, you can activate *iocage* and update the default configuration.
+By default, the role installs *iocage*, tests sanity, and enable the
+*iocage* service. Optionally, you can activate *iocage* and update the
+default configuration. Optionally, you can create and run lists of
+*iocage* commands.
 
 
 ## Requirements
 
 ### Collections
 
-The collections *ansible.posix* and *ansible.utils* are needed by the recommended optional
-role *vbotka.freebsd_postinstall*
+The collections *ansible.posix* and *ansible.utils* are needed by the
+recommended optional role *vbotka.freebsd_postinstall*
 
 * [ansible.posix](https://github.com/ansible-collections/ansible.posix)
 * [ansible.utils](https://github.com/ansible-collections/ansible.utils)
@@ -26,8 +28,11 @@ role *vbotka.freebsd_postinstall*
 
 ### Recommended roles
 
-* Use [vbotka.freebsd_postinstall](https://github.com/vbotka/ansible-freebsd-postinstall)
+* Use [vbotka.freebsd_postinstall](https://galaxy.ansible.com/ui/standalone/roles/vbotka/freebsd_postinstall/)
   to configure: sysctl.conf, loader.conf, fstab, ZFS ...
+
+* Use [vbotka.freebsd_network](https://galaxy.ansible.com/ui/standalone/roles/vbotka/freebsd_network/)
+  to configure network.
 
 ### Packages
 
@@ -39,8 +44,8 @@ Controller:
 
 Remote hosts:
 
-* FreeBSD package or port sysutils/iocage. If missing, the package, or port will be installed by
-  this role.
+* FreeBSD package or port sysutils/iocage. If missing, the package, or
+  port will be installed by this role.
 
 
 ## Variables
@@ -102,6 +107,7 @@ freebsd_iocage_stop: false
 freebsd_iocage_sanity_service: true
 ```
 
+
 ## Workflow
 
 1) Change shell on the remote host to /bin/sh if necessary
@@ -110,16 +116,18 @@ freebsd_iocage_sanity_service: true
 shell> ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod admin -s /bin/sh'
 ```
 
-2) Install the roles. The role *vbotka.freebsd_postinstall* is optional. You can use it to
-   configure *sysctl.conf, loader.conf, fstab, environment, ZFS, ...*
+2) Install the roles. The role *vbotka.freebsd_postinstall* is
+   optional. You can use it to configure *sysctl.conf, loader.conf,
+   fstab, environment, ZFS, ...*
 
 ```bash
 shell> ansible-galaxy role install vbotka.freebsd_iocage
 shell> ansible-galaxy role install vbotka.freebsd_postinstall
 ```
 
-Install the collections if necessary. The collections *ansible.posix* and *ansible.utils* are
-needed by the role *vbotka.freebsd_postinstall*
+Install the collections if necessary. The collections *ansible.posix*
+and *ansible.utils* are needed by the role
+*vbotka.freebsd_postinstall*
 
 ```bash
 shell> ansible-galaxy collection install ansible.posix
@@ -202,8 +210,8 @@ Dry-run the play and display the potential differences
 shell> ansible-playbook freebsd_iocage.yml -CD
 ```
 
-Run the playbook. The role is idempotent. If you're sure the configuration is correct you
-can run the complete play
+Run the playbook. The role is idempotent. If you're sure the
+configuration is correct you can run the complete play
 
 ```bash
 shell> ansible-playbook freebsd_iocage.yml
@@ -212,8 +220,8 @@ shell> ansible-playbook freebsd_iocage.yml
 ### Start iocage
 
 By default, the *iocage* service is enabled, but not started because
-the command */usr/local/etc/rc.d/iocage start* is not
-idempotent. Keep this default and start the service by extra vars
+the command */usr/local/etc/rc.d/iocage start* is not idempotent. Keep
+this default and start the service by extra vars
 
 ```bash
 shell> ansible-playbook freebsd_iocage.yml -e freebsd_iocage_start=true
@@ -250,6 +258,70 @@ shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_rcconf,freebsd_ioca
 ```bash
 shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_rcconf  -e freebsd_iocage_stop=true -e freebsd_iocage_enable=false
 ```
+
+### Runner
+
+By default, the *runner* and *stat* tasks are disabled. If you want to use them set
+
+```yaml
+freebsd_iocage_runner: true
+freebsd_iocage_stat: true
+```
+
+See *vars/runner.yml.sample* how to configure *runner*. Run selected
+commands. For example,
+
+```bash
+shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_runner -e freebsd_iocage_runner_exec='fetch_134R,create_134R_101,vnet_101'
+```
+
+The idempotency of the commands depend on the attributes *creates*,
+*removes*, *when*. For example, the commands below are idempotent
+
+* Fetch 13.4-RELEASE if *releases/13.4-RELEASE* isn't already created.
+* Create jail test_101 if *jails/test_101* isn't already created.
+
+```yaml
+freebsd_iocage_runner_cmd:
+  fetch_134R:
+    - cmd: iocage fetch --release 13.4-RELEASE
+      creates: "{{ freebsd_iocage_zfs_ds }}/releases/13.4-RELEASE"
+  create_134R_101:
+    - cmd: iocage create --release 13.4-RELEASE --name test_101
+      creates: "{{ freebsd_iocage_zfs_ds }}/jails/test_101"
+```
+
+The commands to configure VNET in test_101 aren't idempotent
+
+```
+  vnet_101:
+    - cmd: iocage set vnet=on test_101
+    - cmd: iocage set defaultrouter=10.1.0.10 test_101
+    - cmd: iocage set ip4_addr="vnet0|10.1.0.101/24" test_101
+```
+
+Run the tasks *freebsd_iocage_stat* and create the variables
+*iocage_list_\** if you want to use them in the dictionary
+*freebsd_iocage_runner_cmd*. For example,
+
+
+* Start jail test_101 if not already started
+
+```yaml
+  start_101:
+    - cmd: iocage start test_101
+	  when: "{{ iocage_list_jails.test_101.state != 'up' }}"
+```
+
+Run the tasks *freebsd_iocage_stat* if the dictionary
+*iocage_list_jails* is needed. Then, this command is idempotent
+
+```bash
+shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_stat,freebsd_iocage_runner -e freebsd_iocage_runner_exec=start_101
+```
+
+Note that matching options *creates* and *removes* will be reported as
+*ok* while false evaluation of *when* will be *skipped*.
 
 
 ## Ansible lint
