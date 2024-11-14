@@ -17,6 +17,7 @@ default configuration. Optionally, you can create and run lists of
 
 ## Requirements
 
+
 ### Collections
 
 The collections *ansible.posix* and *ansible.utils* are needed by the
@@ -33,6 +34,7 @@ recommended optional role *vbotka.freebsd_postinstall*
 
 * Use [vbotka.freebsd_network](https://galaxy.ansible.com/ui/standalone/roles/vbotka/freebsd_network/)
   to configure network.
+
 
 ### Packages
 
@@ -99,9 +101,9 @@ freebsd_iocage_restart: false
 freebsd_iocage_stop: false
 ```
 
-* By default, the sanity is teasing the *iocage* service actions are
+* By default, the sanity is testing the *iocage* service actions are
   mutually exclusive. The first enabled action in the order (start,
-  restart, stop) is taken if you bypass this test
+  restart, stop) is taken if you bypass this test (see tasks/rcconf.yml)
 	
 ```yaml
 freebsd_iocage_sanity_service: true
@@ -217,6 +219,7 @@ configuration is correct you can run the complete play
 shell> ansible-playbook freebsd_iocage.yml
 ```
 
+
 ### Start iocage
 
 By default, the *iocage* service is enabled, but not started because
@@ -234,6 +237,7 @@ start the service
 ```bash
 shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_rcconf -e freebsd_iocage_start=true -e freebsd_iocage_enable=true
 ```
+
 
 ### Restart iocage
 
@@ -259,6 +263,7 @@ shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_rcconf,freebsd_ioca
 shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_rcconf  -e freebsd_iocage_stop=true -e freebsd_iocage_enable=false
 ```
 
+
 ### Runner
 
 By default, the *runner* and *stat* tasks are disabled. If you want to use them set
@@ -275,7 +280,7 @@ commands. For example,
 shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_runner -e freebsd_iocage_runner_exec='fetch_134R,create_134R_101,vnet_101'
 ```
 
-The idempotency of the commands depend on the attributes *creates*,
+The idempotency of the commands depends on the attributes *creates*,
 *removes*, *when*. For example, the commands below are idempotent
 
 * Fetch 13.4-RELEASE if *releases/13.4-RELEASE* isn't already created.
@@ -293,7 +298,7 @@ freebsd_iocage_runner_cmd:
 
 The commands to configure VNET in test_101 aren't idempotent
 
-```
+```yaml
   vnet_101:
     - cmd: iocage set vnet=on test_101
     - cmd: iocage set defaultrouter=10.1.0.10 test_101
@@ -310,7 +315,7 @@ Run the tasks *freebsd_iocage_stat* and create the variables
 ```yaml
   start_101:
     - cmd: iocage start test_101
-	  when: "{{ iocage_list_jails.test_101.state != 'up' }}"
+      when: "{{ iocage_list_jails.test_101.state != 'up' }}"
 ```
 
 Run the tasks *freebsd_iocage_stat* if the dictionary
