@@ -5,19 +5,28 @@ vbotka.freebsd_iocage 1.0 Release Notes
 .. contents:: Topics
 
 
-0.1.2
+0.2.0
 =====
 
 Release Summary
 ---------------
-Maintenance update.
+Feature update.
 
 Major Changes
 -------------
 
+* Add tasks/data.yml to create and populate a dataset for mounting in
+  a jail. Add var freebsd_iocage_data (default=false)
+
 Minor Changes
 -------------
-Update README.
+* Update README.
+* Update vars/\*.yml.samples
+* Add files/firstboot.sh
+
+Breaking Changes / Porting Guide
+--------------------------------
+* Variable -freebsd_iocage_zfs_ds renamed to freebsd_iocage_zfs_mount
 
 
 0.1.1

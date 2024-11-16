@@ -1,0 +1,29 @@
+---
+
+- name: "Data: Create dataset for data root"
+  community.general.zfs:
+    name: "{{ freebsd_iocage_data_root }}"
+    state: present
+    extra_zfs_properties: "{{ freebsd_iocage_data_root_properties | d(omit) }}"
+
+- name: "Data: Create datasets for jails"
+  community.general.zfs:
+    name: "{{ freebsd_iocage_data_root }}/{{ item.key }}"
+    state: present
+    extra_zfs_properties: "{{ item.value.extra_zfs_properties | d(omit) }}"
+  loop: "{{ freebsd_iocage_data_jails | dict2items }}"
+  loop_control:
+    label: "{{ freebsd_iocage_data_root }}/{{ item.key }}"
+
+- name: "Data: Copy files to data"
+  ansible.builtin.copy:
+    src: "{{ item.1.name }}"
+    owner: "{{ item.1.owner | d(omit) }}"
+    group: "{{ item.1.group | d(omit) }}"
+    mode: "{{ item.1.mode | d(omit) }}"
+    dest: "{{ freebsd_iocage_data_mount }}/{{ item.0.key }}"
+  loop: "{{ freebsd_iocage_data_jails | dict2items | subelements('value.files') }}"
+  loop_control:
+    label: "{{ item.0.key }} {{ item.1.name }}"
+
+# EOF

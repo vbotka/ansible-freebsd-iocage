@@ -1,0 +1,21 @@
+---
+
+# data enable
+freebsd_iocage_data: false
+
+# data root
+freebsd_iocage_data_root: zroot/iocage-data
+
+# data mountpoint
+freebsd_iocage_data_mount: /mnt/zroot/iocage-data
+
+# data
+freebsd_iocage_data_jails:
+  test_101:
+    files:
+      - name: firstboot.sh
+        owner: root
+        group: wheel
+        mode: '0770'
+
+# EOF

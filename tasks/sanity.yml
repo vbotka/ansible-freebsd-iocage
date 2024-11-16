@@ -181,7 +181,7 @@
     - name: "Sanity: ZFS pool activated."
       when: freebsd_iocage_sanity_zfs_pool_active | bool
       ansible.builtin.assert:
-        that: freebsd_iocage_zfs_ds in zfs_ds
+        that: freebsd_iocage_zfs_mount in zfs_ds
         fail_msg: "[ERR] ZFS pool {{ freebsd_iocage_zfs_pool }} not activated."
         success_msg: "[OK]  ZFS pool {{ freebsd_iocage_zfs_pool }} activated."
 

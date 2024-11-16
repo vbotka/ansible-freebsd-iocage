@@ -1,6 +1,6 @@
 ---
 # defaults for freebsd_iocage
-freebsd_iocage_role_version: 0.1.2
+freebsd_iocage_role_version: 0.2.0
 
 freebsd_iocage_debug: false
 freebsd_iocage_debug2: false
@@ -23,6 +23,6 @@ freebsd_iocage_env:
 # ZFS pool to activate iocage
 freebsd_iocage_zfs_pool: zroot
 # ZFS dataset for iocage
-freebsd_iocage_zfs_ds: "/{{ freebsd_iocage_zfs_pool }}/iocage"
+freebsd_iocage_zfs_mount: "/mnt/{{ freebsd_iocage_zfs_pool }}/iocage"
 
 # EOF

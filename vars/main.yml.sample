@@ -4,7 +4,7 @@
 # activate
 freebsd_iocage_activate: true
 freebsd_iocage_zfs_pool: iocage
-freebsd_iocage_zfs_ds: /iocage/iocage
+freebsd_iocage_zfs_mount: /mnt/iocage/iocage
 
 # sanity
 freebsd_iocage_sanity_zfs_pool_active: true

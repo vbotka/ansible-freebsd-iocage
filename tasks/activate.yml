@@ -9,7 +9,7 @@
       register: result
       ansible.builtin.command:
         cmd: "iocage activate {{ freebsd_iocage_zfs_pool }}"
-        creates: "{{ freebsd_iocage_zfs_ds }}"
+        creates: "{{ freebsd_iocage_zfs_mount }}"
 
     - name: "Activate: Debug result freebsd_iocage_debug={{ freebsd_iocage_debug }}"
       when: freebsd_iocage_debug | bool

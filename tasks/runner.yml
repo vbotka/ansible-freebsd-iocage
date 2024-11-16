@@ -12,7 +12,7 @@
         {{ freebsd_iocage_runner_cmd | to_nice_yaml(indent=2) | indent(2) }}
 
 - name: Execute commands.
-  when: freebsd_iocage_runner_exec
+  when: freebsd_iocage_runner_exec | length > 0
   vars:
     freebsd_iocage_runner_list: "{{ freebsd_iocage_runner_exec | split(',') }}"
   block:
@@ -27,9 +27,10 @@
 
     - name: "Runner: Assert all commands are iocage."
       vars:
+        runner_cmd_regex_set: '[\w|\s|\.|\-|:|=|/|"]'
         runner_cmd_not_iocage: "{{ freebsd_iocage_runner_list |
 	                           map('extract', freebsd_iocage_runner_cmd) | flatten |
-	                           rejectattr('cmd', 'regex', '^iocage [\\w|\\s|\\.|-]*$') }}"
+	                           rejectattr('cmd', 'regex', '^iocage ' ~ runner_cmd_regex_set ~ '*$') }}"
       ansible.builtin.assert:
         that: runner_cmd_not_iocage | length == 0
         fail_msg: "[ERR] Not iocage command(s): {{ runner_cmd_not_iocage }}"
@@ -39,6 +40,7 @@
       when: item.when | d(omit)
       environment: "{{ freebsd_iocage_runner_env }}"
       register: out
+      failed_when: out.rc >= item.failed_rc | d(1) | int
       ansible.builtin.command:
         cmd: "{{ item.cmd }}"
         creates: "{{ item.creates | d(omit) }}"

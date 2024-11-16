@@ -29,6 +29,11 @@
   ansible.builtin.import_tasks: rcconf.yml
   tags: freebsd_iocage_rcconf
 
+- name: Import data.yml
+  ansible.builtin.import_tasks: data.yml
+  when: freebsd_iocage_data | bool
+  tags: freebsd_iocage_data
+
 - name: Import stat.yml
   ansible.builtin.import_tasks: stat.yml
   when: freebsd_iocage_stat | bool

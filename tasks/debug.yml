@@ -26,7 +26,7 @@
 
       freebsd_iocage_backup_conf: {{ freebsd_iocage_backup_conf }}
       freebsd_iocage_zfs_pool: {{ freebsd_iocage_zfs_pool }}
-      freebsd_iocage_zfs_ds: {{ freebsd_iocage_zfs_ds }}
+      freebsd_iocage_zfs_mount: {{ freebsd_iocage_zfs_mount }}
       freebsd_iocage_activate: {{ freebsd_iocage_activate }}
       freebsd_iocage_activate_fatal: {{ freebsd_iocage_activate_fatal }}
 
@@ -51,6 +51,11 @@
       freebsd_iocage_defaults_override_bool: {{ freebsd_iocage_defaults_override_bool }}
       freebsd_iocage_defaults_update:
         {{ freebsd_iocage_defaults_update | to_nice_yaml(indent=2) | indent(2) }}
+      freebsd_iocage_data: {{ freebsd_iocage_data }}
+      freebsd_iocage_data_root: {{ freebsd_iocage_data_root }}
+      freebsd_iocage_data_mount: {{ freebsd_iocage_data_mount }}
+      freebsd_iocage_data_jails:
+        {{ freebsd_iocage_data_jails | to_nice_yaml(indent=2) | indent(2) }}
       freebsd_iocage_stat: {{ freebsd_iocage_stat }}
       freebsd_iocage_stat_fatal: {{ freebsd_iocage_stat_fatal }}
       freebsd_iocage_runner: {{ freebsd_iocage_runner }}
