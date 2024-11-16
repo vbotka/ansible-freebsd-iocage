@@ -3,7 +3,7 @@
 [![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-iocage.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-iocage)
 [![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-iocage)](https://github.com/vbotka/ansible-freebsd-iocage/tags)
 
-[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_iocage/) FreeBSD. Install, configure, and run iocage.
+[Ansible role.](https://galaxy.ansible.com/ui/standalone/roles/vbotka/freebsd_iocage/) FreeBSD. Install, configure, and run iocage.
 
 Feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-iocage/issues).
 

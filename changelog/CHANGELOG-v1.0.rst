@@ -17,6 +17,7 @@ Major Changes
 
 Minor Changes
 -------------
+* Update README. Fix role link in galaxy.
 
 Breaking Changes / Porting Guide
 --------------------------------
