@@ -20,12 +20,9 @@ default configuration. Optionally, you can create and run lists of
 
 ### Collections
 
-The collections *ansible.posix* and *ansible.utils* are needed by the
-recommended optional role *vbotka.freebsd_postinstall*
-
 * [ansible.posix](https://github.com/ansible-collections/ansible.posix)
-* [ansible.utils](https://github.com/ansible-collections/ansible.utils)
 * [community.general](https://github.com/ansible-collections/community.general)
+
 
 ### Recommended roles
 
