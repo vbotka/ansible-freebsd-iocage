@@ -12,7 +12,7 @@ freebsd_iocage_runner_exec: "fetch_134R,create_101,notes_101,vnet_101,data_101,s
 freebsd_iocage_runner_cmd:
   create_101:
     - cmd: iocage create --release 13.4-RELEASE --name test_101
-      creates: "{{ freebsd_iocage_zfs_mount }}/jails/test_101"
+      creates: "{{ freebsd_iocage_mount }}/jails/test_101"
   notes_101:
     - cmd: iocage set notes="foo-bar" test_101
   vnet_101:
@@ -45,25 +45,25 @@ freebsd_iocage_runner_cmd:
       failed_rc: 2
   fetch_133R:
     - cmd: iocage fetch --release 13.3-RELEASE
-      creates: "{{ freebsd_iocage_zfs_mount }}/releases/13.3-RELEASE"
+      creates: "{{ freebsd_iocage_mount }}/releases/13.3-RELEASE"
   fetch_134R:
     - cmd: iocage fetch --release 13.4-RELEASE
-      creates: "{{ freebsd_iocage_zfs_mount }}/releases/13.4-RELEASE"
+      creates: "{{ freebsd_iocage_mount }}/releases/13.4-RELEASE"
   fetch_141R:
     - cmd: iocage fetch --release 14.1-RELEASE
-      creates: "{{ freebsd_iocage_zfs_mount }}/releases/14.1-RELEASE"
+      creates: "{{ freebsd_iocage_mount }}/releases/14.1-RELEASE"
   create_134R_101:
     - cmd: iocage create --release 13.4-RELEASE --name test_101
-      creates: "{{ freebsd_iocage_zfs_mount }}/jails/test_101"
+      creates: "{{ freebsd_iocage_mount }}/jails/test_101"
   create_134R_102:
     - cmd: iocage create --release 13.4-RELEASE --name test_102
-      creates: "{{ freebsd_iocage_zfs_mount }}/jails/test_102"
+      creates: "{{ freebsd_iocage_mount }}/jails/test_102"
   create_134R_103:
     - cmd: iocage create --release 13.4-RELEASE --name test_103
-      creates: "{{ freebsd_iocage_zfs_mount }}/jails/test_103"
+      creates: "{{ freebsd_iocage_mount }}/jails/test_103"
   create_141R_111:
     - cmd: iocage create --release 14.1-RELEASE --name test_111
-      creates: "{{ freebsd_iocage_zfs_mount }}/jails/"
+      creates: "{{ freebsd_iocage_mount }}/jails/"
   vnet_102:
     - cmd: iocage set vnet=on test_102
     - cmd: iocage set defaultrouter=10.1.0.10 test_102

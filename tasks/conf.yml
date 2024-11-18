@@ -13,18 +13,18 @@
     - name: "Conf: Stat defaults.json"
       register: result
       ansible.builtin.stat:
-        path: "{{ freebsd_iocage_zfs_mount }}/defaults.json"
+        path: "{{ freebsd_iocage_mount }}/defaults.json"
 
-    - name: "Conf: Exists {{ freebsd_iocage_zfs_mount ~ '/defaults.json' }}"
+    - name: "Conf: Exists {{ freebsd_iocage_mount ~ '/defaults.json' }}"
       ansible.builtin.assert:
         that: result.stat.exists
-        fail_msg: "[ERR] {{ freebsd_iocage_zfs_mount }}/defaults.json is missing."
-        success_msg: "[OK]  {{ freebsd_iocage_zfs_mount }}/defaults.json exists."
+        fail_msg: "[ERR] {{ freebsd_iocage_mount }}/defaults.json is missing."
+        success_msg: "[OK]  {{ freebsd_iocage_mount }}/defaults.json exists."
 
-    - name: "Conf: Read {{ freebsd_iocage_zfs_mount ~ '/defaults.json' }}"
+    - name: "Conf: Read {{ freebsd_iocage_mount ~ '/defaults.json' }}"
       register: result
       ansible.builtin.slurp:
-        src: "{{ freebsd_iocage_zfs_mount }}/defaults.json"
+        src: "{{ freebsd_iocage_mount }}/defaults.json"
 
     - name: "Conf: Set freebsd_iocage_defaults_current"
       ansible.builtin.set_fact:
@@ -59,13 +59,13 @@
         that: update_bool_v | reject('in', ['on', 'off']) | length == 0
         fail_msg: "[ERR] Only ['on', 'off'] allowed in: {{ update_bool_k }}"
 
-    - name: "Conf: Update {{ freebsd_iocage_zfs_mount ~ '/defaults.json' }}"
+    - name: "Conf: Update {{ freebsd_iocage_mount ~ '/defaults.json' }}"
       vars:
         freebsd_iocage_defaults: "{{ freebsd_iocage_defaults_current |
                                      ansible.builtin.combine(freebsd_iocage_defaults_update) }}"
       ansible.builtin.template:
         src: defaults.json.j2
-        dest: "{{ freebsd_iocage_zfs_mount }}/defaults.json"
+        dest: "{{ freebsd_iocage_mount }}/defaults.json"
         owner: root
         group: wheel
         mode: "0644"

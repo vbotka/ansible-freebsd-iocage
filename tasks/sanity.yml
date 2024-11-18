@@ -164,13 +164,13 @@
     - name: "Sanity: ZFS pool exists."
       when: freebsd_iocage_sanity_zfs_pool_exists | bool
       ansible.builtin.assert:
-        that: freebsd_iocage_zfs_pool in zfs_pools
-        fail_msg: "[ERR] ZFS pool {{ freebsd_iocage_zfs_pool }} missing."
-        success_msg: "[OK]  ZFS pool {{ freebsd_iocage_zfs_pool }} exists."
+        that: freebsd_iocage_pool in zfs_pools
+        fail_msg: "[ERR] ZFS pool {{ freebsd_iocage_pool }} missing."
+        success_msg: "[OK]  ZFS pool {{ freebsd_iocage_pool }} exists."
 
     - name: "Sanity: Get ZFS datasets."
       community.general.zfs_facts:
-        name: "{{ freebsd_iocage_zfs_pool }}"
+        name: "{{ freebsd_iocage_pool }}"
         depth: 1
 
     - name: "Sanity: Debug result freebsd_iocage_debug={{ freebsd_iocage_debug }}"
@@ -181,8 +181,8 @@
     - name: "Sanity: ZFS pool activated."
       when: freebsd_iocage_sanity_zfs_pool_active | bool
       ansible.builtin.assert:
-        that: freebsd_iocage_zfs_mount in zfs_ds
-        fail_msg: "[ERR] ZFS pool {{ freebsd_iocage_zfs_pool }} not activated."
-        success_msg: "[OK]  ZFS pool {{ freebsd_iocage_zfs_pool }} activated."
+        that: freebsd_iocage_mount in zfs_ds
+        fail_msg: "[ERR] ZFS pool {{ freebsd_iocage_pool }} not activated."
+        success_msg: "[OK]  ZFS pool {{ freebsd_iocage_pool }} activated."
 
 # EOF

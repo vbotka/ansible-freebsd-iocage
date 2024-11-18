@@ -14,6 +14,10 @@ Feature update.
 
 Major Changes
 -------------
+* Add var freebsd_iocage_data_mount_enable (default=false)
+* Add var freebsd_iocage_data_dir (default=mnt)
+* Update tasks
+* Update defaults and samples in vars.
 
 Minor Changes
 -------------
@@ -21,6 +25,9 @@ Minor Changes
 
 Breaking Changes / Porting Guide
 --------------------------------
+* Rename:
+  freebsd_iocage_zfs_pool to freebsd_iocage_pool
+  freebsd_iocage_zfs_mount to freebsd_iocage_mount
 
 
 0.2.0
@@ -44,7 +51,7 @@ Minor Changes
 
 Breaking Changes / Porting Guide
 --------------------------------
-* Variable -freebsd_iocage_zfs_ds renamed to freebsd_iocage_zfs_mount
+* Variable -freebsd_iocage_zfs_ds renamed to freebsd_iocage_mount
 
 
 0.1.1

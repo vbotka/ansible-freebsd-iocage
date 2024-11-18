@@ -2,12 +2,16 @@
 
 # data enable
 freebsd_iocage_data: false
+# data ZFS mount enable
+freebsd_iocage_data_mount_enable: false
 
-# data root
-freebsd_iocage_data_root: zroot/iocage-data
+# data ZFS root
+freebsd_iocage_data_root: "{{ freebsd_iocage_pool }}/iocage-data"
+# data ZFS root mountpoint
+freebsd_iocage_data_mount: "{{ freebsd_iocage_pool_mount }}/iocage-data"
 
-# data mountpoint
-freebsd_iocage_data_mount: /mnt/zroot/iocage-data
+# data jail dir (will be created if missing)
+freebsd_iocage_data_dir: mnt
 
 # data
 freebsd_iocage_data_jails:

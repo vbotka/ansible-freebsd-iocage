@@ -58,8 +58,8 @@ See the defaults and examples in vars.
   the ZFS pool to your needs
 
 ```yaml
-freebsd_iocage_zfs_pool: zroot
-freebsd_iocage_zfs_mount: /zroot/iocage
+freebsd_iocage_pool: zroot
+freebsd_iocage_mount: /zroot/iocage
 ```
 
 and enable the activation of *iocage*
@@ -305,10 +305,10 @@ The idempotency of the commands depends on the attributes *creates*,
 freebsd_iocage_runner_cmd:
   fetch_134R:
     - cmd: iocage fetch --release 13.4-RELEASE
-      creates: "{{ freebsd_iocage_zfs_mount }}/releases/13.4-RELEASE"
+      creates: "{{ freebsd_iocage_mount }}/releases/13.4-RELEASE"
   create_134R_101:
     - cmd: iocage create --release 13.4-RELEASE --name test_101
-      creates: "{{ freebsd_iocage_zfs_mount }}/jails/test_101"
+      creates: "{{ freebsd_iocage_mount }}/jails/test_101"
 ```
 
 The commands to configure VNET in test_101 aren't idempotent
@@ -359,16 +359,60 @@ freebsd_iocage_runner_cmd:
 
 ## Data
 
-By default the *data* tasks are disabled. If you want to create a dataset for mounting inside a
-jail set
+By default the *data* tasks are disabled. If you want to copy files
+into the jails set
 
 ```yaml
 freebsd_iocage_data: true
 ```
 
-and set the variables *freebsd_iocage_data_\** to your needs. See
-*defaults/main/data.yml*. Populate the dataset with files you want to
-use inside a jail. For example,
+Either copy the files into a jail directory or into a dataset
+that will be mounted in a jail.
+
+### ZFS dataset for mounting in a jail
+
+If you want to create a dataset for mounting in a jail set
+
+```yaml
+freebsd_iocage_data_mount_enable: true
+```
+
+and declare the root for the datasets and the mountpoint. For example,
+
+```yaml
+freebsd_iocage_data_root: "{{ freebsd_iocage_pool }}/iocage-data"
+freebsd_iocage_data_mount: "{{ freebsd_iocage_pool_mount }}/iocage-data"
+```
+
+Then, mount it in an already created jail by the *runner* command. For
+example,
+
+```yaml
+freebsd_iocage_runner_cmd:
+  data_101:
+    - cmd: 'iocage fstab -a test_101 "{{ freebsd_iocage_data_mount }}/test_101 /mnt nullfs rw 0 0"'
+      failed_rc: 2
+```
+
+### Dictionary in a jail
+
+If you want to copy files into a directory in an already created jail
+set
+
+```yaml
+freebsd_iocage_data_mount_enable: false
+```
+
+and declare the directory. For example,
+
+```yaml
+freebsd_iocage_data_dir: mnt
+```
+
+### Copy files to data
+
+Populate the dataset with files you want to use in a jail. For
+example,
 
 ```yaml
 freebsd_iocage_data_jails:
@@ -380,17 +424,25 @@ freebsd_iocage_data_jails:
         mode: '0770'
 ```
 
-Then, mount it by the *runner* command. For example,
+For your convenience, the script is distributed in the role
+*files/firstboot.sh*. Fit the script to your needs. Copy the files
+into a directory or a dataset depending on
+*freebsd_iocage_data_mount*.  See *tasks/data.yml*
 
 ```yaml
-  data_101:
-    - cmd: 'iocage fstab -a test_101 "{{ freebsd_iocage_data_mount }}/test_101 \
-	                                  /{{ freebsd_iocage_data_jail_mount.dir }} nullfs rw 0 0"'
-      failed_rc: 2
+- name: "Data: Copy files to data."
+  vars:
+    dest_data_mount: "{{ freebsd_iocage_data_mount }}/{{ item.0.key }}"
+    dest_jail_dir: "{{ freebsd_iocage_mount }}/jails/{{ item.0.key }}/{{ freebsd_iocage_data_dir }}"
+    dest: "{{ freebsd_iocage_data_mount_enable | ternary(dest_data_mount, dest_jail_dir) }}"
+  ansible.builtin.copy:
+    ...
+    dest: "{{ dest }}"
+  loop: "{{ freebsd_iocage_data_jails | dict2items | subelements('value.files') }}"
 ```
 
-For your convenience, the script is distributed in the role
-*files/firstboot.sh*. Fit the script to your needs.
+Set the variables *freebsd_iocage_data_\** to your needs. See
+*defaults/main/data.yml*.
 
 
 ## Ansible lint

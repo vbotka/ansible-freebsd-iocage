@@ -1,7 +1,11 @@
 ---
+
 freebsd_iocage_data: true
+freebsd_iocage_data_mount_enable: true
+
 freebsd_iocage_data_root: pool2/iocage-data
 freebsd_iocage_data_mount: /mnt/pool2/iocage-data
+
 freebsd_iocage_data_jails:
   test_101:
     files:
