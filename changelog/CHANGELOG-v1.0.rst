@@ -14,6 +14,9 @@ Feature update.
 
 Major Changes
 -------------
+* Add var freebsd_iocage_data_fstab (default=false). Optionaly create
+  fstab entry by ansible.posix.mount
+* Update tasks/data.yml
 
 Minor Changes
 -------------
