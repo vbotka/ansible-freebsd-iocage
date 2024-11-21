@@ -59,6 +59,7 @@
         {{ freebsd_iocage_defaults_update | to_nice_yaml(indent=2) | indent(2) }}
       freebsd_iocage_data: {{ freebsd_iocage_data }}
       freebsd_iocage_data_mount_enable: {{ freebsd_iocage_data_mount_enable }}
+      freebsd_iocage_data_fstab: {{ freebsd_iocage_data_fstab }}
       freebsd_iocage_data_root: {{ freebsd_iocage_data_root }}
       freebsd_iocage_data_mount: {{ freebsd_iocage_data_mount }}
       freebsd_iocage_data_dir: {{ freebsd_iocage_data_dir }}
