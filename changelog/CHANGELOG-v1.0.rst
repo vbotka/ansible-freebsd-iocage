@@ -16,6 +16,7 @@ Major Changes
 -------------
 
 * Add var freebsd_iocage_assert_quiet (default=true)
+* Update tasks/sanity.yml
 * Add var freebsd_iocage_data_fstab (default=false). Optionaly create
   fstab entry by ansible.posix.mount
 * Update tasks/data.yml
