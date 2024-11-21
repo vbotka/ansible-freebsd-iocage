@@ -14,9 +14,14 @@ Feature update.
 
 Major Changes
 -------------
+
+* Add var freebsd_iocage_assert_quiet (default=true)
 * Add var freebsd_iocage_data_fstab (default=false). Optionaly create
   fstab entry by ansible.posix.mount
 * Update tasks/data.yml
+* Add var freebsd_iocage_clean (default=false). Optionaly clean
+  stopped jails.
+* Add tasks/clean.yml
 
 Minor Changes
 -------------

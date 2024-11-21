@@ -17,6 +17,9 @@ freebsd_iocage_stop: false
 # Backup configuration files
 freebsd_iocage_backup_conf: false
 
+# Quiet asserts
+freebsd_iocage_assert_quiet: true
+
 # Environment
 freebsd_iocage_lang: "en_US.UTF-8"
 freebsd_iocage_env:

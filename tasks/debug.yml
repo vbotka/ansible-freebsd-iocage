@@ -17,6 +17,7 @@
       freebsd_use_packages: {{ freebsd_use_packages }}
       freebsd_install_retries: {{ freebsd_install_retries }}
       freebsd_install_delay: {{ freebsd_install_delay }}
+
       freebsd_iocage_install: {{ freebsd_iocage_install }}
       freebsd_iocage_packages:
         {{ freebsd_iocage_packages | to_nice_yaml(indent=2) | indent(2) }}
@@ -26,9 +27,12 @@
       freebsd_iocage_stop: {{ freebsd_iocage_restart }}
 
       freebsd_iocage_backup_conf: {{ freebsd_iocage_backup_conf }}
+      freebsd_iocage_assert_quiet: {{ freebsd_iocage_assert_quiet }}
+
       freebsd_iocage_pool: {{ freebsd_iocage_pool }}
       freebsd_iocage_pool_mount: {{ freebsd_iocage_pool_mount }}
       freebsd_iocage_mount: {{ freebsd_iocage_mount }}
+
       freebsd_iocage_activate: {{ freebsd_iocage_activate }}
       freebsd_iocage_activate_fatal: {{ freebsd_iocage_activate_fatal }}
 
@@ -62,6 +66,7 @@
         {{ freebsd_iocage_data_jails | to_nice_yaml(indent=2) | indent(2) }}
       freebsd_iocage_stat: {{ freebsd_iocage_stat }}
       freebsd_iocage_stat_fatal: {{ freebsd_iocage_stat_fatal }}
+
       freebsd_iocage_runner: {{ freebsd_iocage_runner }}
       freebsd_iocage_runner_fatal: {{ freebsd_iocage_runner_fatal }}
       freebsd_iocage_runner_env:
@@ -69,6 +74,10 @@
       freebsd_iocage_runner_exec: {{ freebsd_iocage_runner_exec }}
       freebsd_iocage_runner_cmd:
         {{ freebsd_iocage_runner_cmd | to_nice_yaml(indent=2) | indent(2) }}
+      freebsd_iocage_clean: {{ freebsd_iocage_clean }}
+      freebsd_iocage_clean_jails:
+        {{ freebsd_iocage_clean_jails | to_nice_yaml(indent=2) | indent(2) }}
+
 
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"

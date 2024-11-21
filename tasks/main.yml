@@ -44,4 +44,9 @@
   when: freebsd_iocage_runner | bool
   tags: freebsd_iocage_runner
 
+- name: Import clean.yml
+  ansible.builtin.import_tasks: clean.yml
+  when: freebsd_iocage_clean | bool
+  tags: freebsd_iocage_clean
+
 # EOF
