@@ -9,10 +9,25 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 
 [Contributions are welcome](https://github.com/firstcontributions/first-contributions).
 
-By default, the role installs *iocage*, tests sanity, and enable the
-*iocage* service. Optionally, you can activate *iocage* and update the
-default configuration. Optionally, you can create and run lists of
-*iocage* commands.
+By default, the role:
+
+* install *iocage*
+* test sanity
+* enable the *iocage* service
+
+Optionally, the role:
+
+* activate *iocage*
+* configure *sysctl* and *iocage* defaults
+* configure *rc.conf* and start/restart/stop/disable the *iocage* service
+* copy files or mount a dataset in a jail
+* create variables *iocage_list_jails, bases, basejails,* and *templates*
+* run lists of *iocage* commands
+* clean files in a stopped jail
+
+It is necessary to take a look at the *tasks/\** to understand the
+functionality. Then, fit the variables to your needs and enable the
+functionality depending on your scenario.
 
 
 ## Requirements
@@ -26,10 +41,10 @@ default configuration. Optionally, you can create and run lists of
 
 ### Recommended roles
 
-* Use [vbotka.freebsd_postinstall](https://galaxy.ansible.com/ui/standalone/roles/vbotka/freebsd_postinstall/)
-  to configure: sysctl.conf, loader.conf, fstab, ZFS ...
+* [vbotka.freebsd_postinstall](https://galaxy.ansible.com/ui/standalone/roles/vbotka/freebsd_postinstall/)
+  to configure sysctl.conf, loader.conf, fstab, ZFS ...
 
-* Use [vbotka.freebsd_network](https://galaxy.ansible.com/ui/standalone/roles/vbotka/freebsd_network/)
+* [vbotka.freebsd_network](https://galaxy.ansible.com/ui/standalone/roles/vbotka/freebsd_network/)
   to configure network.
 
 
@@ -43,7 +58,7 @@ Controller:
 
 Remote hosts:
 
-* FreeBSD package or port sysutils/iocage. If missing, the package, or
+* FreeBSD package or port *sysutils/iocage*. If missing, the package, or
   port will be installed by this role.
 
 
@@ -51,8 +66,8 @@ Remote hosts:
 
 See the defaults and examples in vars.
 
-* By default, the activation of *iocage* is disabled. Optionally, fit
-  the ZFS pool to your needs
+* By default, the activation of *iocage* is disabled. Fit the ZFS pool
+  to your needs
 
 ```yaml
 freebsd_iocage_pool: zroot
@@ -87,7 +102,7 @@ freebsd_iocage_defaults_update:
 
 ```yaml
 freebsd_iocage_enable: true
-freebsd_iocage_start: false
+freebsd_iocage_start: true
 ```
 
 * The other *iocage* service actions (restart and stop) are also not
@@ -116,22 +131,19 @@ shell> ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh
                     -a 'sudo pw usermod admin -s /bin/sh'
 ```
 
-2) Install the roles. The role *vbotka.freebsd_postinstall* is
-   optional. You can use it to configure *sysctl.conf, loader.conf,
-   fstab, environment, ZFS, ...*
+2) Install the roles. The roles *vbotka.freebsd_postinstall* and
+   *vbotka.freebsd_network* are optional.
 
 ```bash
 shell> ansible-galaxy role install vbotka.freebsd_iocage
 shell> ansible-galaxy role install vbotka.freebsd_postinstall
+shell> ansible-galaxy role install vbotka.freebsd_network
 ```
 
-Install the collections if necessary. The collections *ansible.posix*
-and *ansible.utils* are needed by the role
-*vbotka.freebsd_postinstall*
+Install or update the collections if necessary
 
 ```bash
 shell> ansible-galaxy collection install ansible.posix
-shell> ansible-galaxy collection install ansible.utils
 shell> ansible-galaxy collection install community.general
 ```
 
@@ -331,7 +343,7 @@ Run the tasks *freebsd_iocage_stat* and create the variables
 ```
 
 Run the tasks *freebsd_iocage_stat* if the dictionary
-*iocage_list_jails* is needed. Then, this command is idempotent
+*iocage_list_jails* is needed. Then, this play is idempotent
 
 ```bash
 shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_stat,freebsd_iocage_runner \
@@ -339,12 +351,12 @@ shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_stat,freebsd_iocage
 ```
 
 Note that matching options *creates* and *removes* will be reported as
-*ok* while false evaluation of *when* will be *skipped*.
+*ok* while false evaluations of *when* will be *skipped*.
 
 ### failed_rc
 
 Some commands return rc=1 when repeated. Use the attribute *failed_rc*
-to avoid the command failing when running again. For example,
+to avoid the command failing when running repeatedly. For example,
 
 ```yaml
 freebsd_iocage_runner_cmd:
@@ -356,14 +368,14 @@ freebsd_iocage_runner_cmd:
 
 ## Data
 
-By default the *data* tasks are disabled. If you want to copy files
-into the jails set
+By default, the *data* tasks are disabled. If you want to copy files
+or mount a dataset in a jails set
 
 ```yaml
 freebsd_iocage_data: true
 ```
 
-Either copy the files into a jail directory or into a dataset
+This will either copy files into a jail directory or into a dataset
 that will be mounted in a jail.
 
 ### ZFS dataset for mounting in a jail
@@ -381,19 +393,22 @@ freebsd_iocage_data_root: "{{ freebsd_iocage_pool }}/iocage-data"
 freebsd_iocage_data_mount: "{{ freebsd_iocage_pool_mount }}/iocage-data"
 ```
 
-Then, mount it in an already created jail by the *runner* command. For
-example,
+Then, mount the datasets in already created jails by the *runner*
+command. For example,
 
 ```yaml
 freebsd_iocage_runner_cmd:
   data_101:
     - cmd: 'iocage fstab -a test_101 "{{ freebsd_iocage_data_mount }}/test_101 /mnt nullfs rw 0 0"'
       failed_rc: 2
+  data_102:
+    - cmd: 'iocage fstab -a test_102 "{{ freebsd_iocage_data_mount }}/test_102 /mnt nullfs rw 0 0"'
+      failed_rc: 2
 ```
 
-### Dictionary in a jail
+### Directory in a jail
 
-If you want to copy files into a directory in an already created jail
+If you want to copy files into a directory in an already created jails
 set
 
 ```yaml
@@ -408,12 +423,18 @@ freebsd_iocage_data_dir: mnt
 
 ### Copy files to data
 
-Populate the dataset with files you want to use in a jail. For
+Populate the datasets with files you want to use in jails. For
 example,
 
 ```yaml
 freebsd_iocage_data_jails:
   test_101:
+    files:
+      - name: firstboot.sh
+        owner: root
+        group: wheel
+        mode: '0770'
+  test_102:
     files:
       - name: firstboot.sh
         owner: root
