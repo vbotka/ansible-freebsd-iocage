@@ -127,7 +127,8 @@ freebsd_iocage_sanity_service: true
 1) Change shell on the remote host to /bin/sh if necessary
 
 ```bash
-shell> ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' \
+shell> ansible host -e 'ansible_shell_type=csh' \
+                    -e 'ansible_shell_executable=/bin/csh' \
                     -a 'sudo pw usermod admin -s /bin/sh'
 ```
 
@@ -305,10 +306,13 @@ shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_runner \
 ### Idempotent commands
 
 The idempotency of the commands depends on the attributes *creates*,
-*removes*, *when*. For example, the commands below are idempotent
+*removes*, *when*. For example, the commands *fetch_134R* and
+*create_134R_101* are idempotent. The commands in the list *vnet_101*
+are not idempotent
 
 * Fetch 13.4-RELEASE if *releases/13.4-RELEASE* isn't already created.
 * Create jail test_101 if *jails/test_101* isn't already created.
+* Configure VNET in test_101
 
 ```yaml
 freebsd_iocage_runner_cmd:
@@ -318,11 +322,6 @@ freebsd_iocage_runner_cmd:
   create_134R_101:
     - cmd: iocage create --release 13.4-RELEASE --name test_101
       creates: "{{ freebsd_iocage_mount }}/jails/test_101"
-```
-
-The commands to configure VNET in test_101 aren't idempotent
-
-```yaml
   vnet_101:
     - cmd: iocage set vnet=on test_101
     - cmd: iocage set defaultrouter=10.1.0.10 test_101
