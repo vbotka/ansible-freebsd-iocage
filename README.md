@@ -300,13 +300,13 @@ See *vars/runner.yml.sample* how to configure *runner*. For example,
 freebsd_iocage_runner_cmd:
   fetch_141R:
     - cmd: iocage fetch --release 14.1-RELEASE
-	  creates: "{{ freebsd_iocage_mount }}/releases/14.1-RELEASE"
+      creates: "{{ freebsd_iocage_mount }}/releases/14.1-RELEASE"
   create_141R_121:
     - cmd: iocage create --release 14.1-RELEASE --name test_121
-	  creates: "{{ freebsd_iocage_mount }}/jails/test_121"
+      creates: "{{ freebsd_iocage_mount }}/jails/test_121"
   net_121:
     - cmd: iocage set vnet=off test_121
-	- cmd: iocage set ip4_addr="em0|10.1.0.121/24" test_121
+    - cmd: iocage set ip4_addr="em0|10.1.0.121/24" test_121
 ```
 
 Run selected commands
