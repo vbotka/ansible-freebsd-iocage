@@ -47,9 +47,8 @@
   block:
 
     - name: "Rcconf: Enable iocage" # noqa: no-changed-when
+      environment: "{{ freebsd_iocage_env }}"
       register: result
-      environment:
-        CRYPTOGRAPHY_OPENSSL_NO_LEGACY: '1'
       ansible.builtin.command: /usr/local/etc/rc.d/iocage enable
 
     - name: "Rcconf: Debug enable iocage freebsd_iocage_debug={{ freebsd_iocage_debug }}"
@@ -72,9 +71,8 @@
     - name: "Rcconf: iocage {{ actions_active_name }}" # noqa: no-changed-when
       vars:
         actions_active_name: "{{ actions_active | map(attribute='key') | first }}"
+      environment: "{{ freebsd_iocage_env }}"
       register: result
-      environment:
-        CRYPTOGRAPHY_OPENSSL_NO_LEGACY: '1'
       ansible.builtin.command: "/usr/local/etc/rc.d/iocage {{ actions_active_name }}"
 
     - name: "Rcconf: Debug result freebsd_iocage_debug={{ freebsd_iocage_debug }}"
@@ -89,9 +87,8 @@
   block:
 
     - name: "Rcconf: Disable iocage" # noqa: no-changed-when
+      environment: "{{ freebsd_iocage_env }}"
       register: result
-      environment:
-        CRYPTOGRAPHY_OPENSSL_NO_LEGACY: '1'
       ansible.builtin.command: /usr/local/etc/rc.d/iocage disable
 
     - name: "Rcconf: Debug disable iocage freebsd_iocage_debug={{ freebsd_iocage_debug }}"

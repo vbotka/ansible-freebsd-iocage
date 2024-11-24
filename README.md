@@ -154,7 +154,7 @@ shell> ansible-galaxy collection install community.general
 4) Create playbook and inventory
 
 ```bash
-shell> cat freebsd_iocage.yml
+shell> cat iocage.yml
 - hosts: host
   roles:
     - vbotka.freebsd_iocage
@@ -175,64 +175,63 @@ ansible_perl_interpreter=/usr/local/bin/perl
 
 5) Install and configure the iocage host
 
+Add `-e freebsd_iocage_debug=true` to see details in the below
+commands. Some tasks (clean, stat) provide additional details when you
+set `-e freebsd_iocage_debug2=true`.
+
 Check syntax of the play
 
 ```bash
-shell> ansible-playbook freebsd-iocage.yml --syntax-check
+shell> ansible-playbook iocage.yml --syntax-check
 ```
 
 Display variables
 
 ```bash
-shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_debug \
-                                           -e freebsd_iocage_debug=true
+shell> ansible-playbook iocage.yml -t freebsd_iocage_debug -e freebsd_iocage_debug=true
 ```
 
 Dry-run the package installation
 
 ```bash
-ansible-playbook freebsd-iocage.yml -t freebsd_iocage_pkg \
-                                    -e freebsd_iocage_install=true \
-									-CD
+shell> ansible-playbook iocage.yml -t freebsd_iocage_pkg -e freebsd_iocage_install=true -CD
 ```
 
 Install packages
 
 ```bash
-shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_pkg \
-                                           -e freebsd_iocage_install=true
+shell> ansible-playbook iocage.yml -t freebsd_iocage_pkg -e freebsd_iocage_install=true
 ```
 
 Optionally, activate iocage
 
 ```bash
-shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_activate \
-                                           -e freebsd_iocage_activate=true
+shell> ansible-playbook iocage.yml -t freebsd_iocage_activate -e freebsd_iocage_activate=true
 ```
 
 Run sanity tests
 
 ```bash
-shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_sanity
+shell> ansible-playbook iocage.yml -t freebsd_iocage_sanity
 ```
 
 Optionally, configure iocage defaults
 
 ```bash
-shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_conf
+shell> ansible-playbook iocage.yml -t freebsd_iocage_conf
 ```
 
 Dry-run the play and display the potential differences
 
 ```bash
-shell> ansible-playbook freebsd_iocage.yml -CD
+shell> ansible-playbook iocage.yml -CD
 ```
 
 Run the playbook. The role is idempotent. If you're sure the
 configuration is correct you can run the complete play
 
 ```bash
-shell> ansible-playbook freebsd_iocage.yml
+shell> ansible-playbook iocage.yml
 ```
 
 
@@ -243,7 +242,7 @@ the command */usr/local/etc/rc.d/iocage start* is not idempotent. Keep
 this default and start the service by extra vars
 
 ```bash
-shell> ansible-playbook freebsd_iocage.yml -e freebsd_iocage_start=true
+shell> ansible-playbook iocage.yml -e freebsd_iocage_start=true
 ```
 
 The role will fail if any service action (start, restart, or stop) is
@@ -251,9 +250,9 @@ active and the service is disabled. You can selectively enable and
 start the service
 
 ```bash
-shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_rcconf \
-                                           -e freebsd_iocage_start=true \
-										   -e freebsd_iocage_enable=true
+shell> ansible-playbook iocage.yml -t freebsd_iocage_rcconf \
+                                   -e freebsd_iocage_start=true \
+								   -e freebsd_iocage_enable=true
 ```
 
 
@@ -262,16 +261,16 @@ shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_rcconf \
 * For example, enable *freebsd_iocage_restart* if you update *rc.conf*
   
 ```bash
-shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_rcconf \
-                                           -e freebsd_iocage_restart=true
+shell> ansible-playbook iocage.yml -t freebsd_iocage_rcconf \
+                                   -e freebsd_iocage_restart=true
 ```
 
 , or *defaults.json*
 
 ```bash
 
-shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_rcconf,freebsd_iocage_conf \
-                                           -e freebsd_iocage_restart=true
+shell> ansible-playbook iocage.yml -t freebsd_iocage_rcconf,freebsd_iocage_conf \
+                                   -e freebsd_iocage_restart=true
 ```
 
 
@@ -280,9 +279,9 @@ shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_rcconf,freebsd_ioca
 * Stop the service first if you want to disable it
 
 ```bash
-shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_rcconf \
-                                           -e freebsd_iocage_stop=true \
-										   -e freebsd_iocage_enable=false
+shell> ansible-playbook iocage.yml -t freebsd_iocage_rcconf \
+                                   -e freebsd_iocage_stop=true \
+								   -e freebsd_iocage_enable=false
 ```
 
 ## Runner
@@ -295,13 +294,41 @@ freebsd_iocage_runner: true
 freebsd_iocage_stat: true
 ```
 
-See *vars/runner.yml.sample* how to configure *runner*. Run selected
-commands. For example,
+See *vars/runner.yml.sample* how to configure *runner*. For example,
+
+```yaml
+freebsd_iocage_runner_cmd:
+  fetch_141R:
+    - cmd: iocage fetch --release 14.1-RELEASE
+	  creates: "{{ freebsd_iocage_mount }}/releases/14.1-RELEASE"
+  create_141R_121:
+    - cmd: iocage create --release 14.1-RELEASE --name test_121
+	  creates: "{{ freebsd_iocage_mount }}/jails/test_121"
+  net_121:
+    - cmd: iocage set vnet=off test_121
+	- cmd: iocage set ip4_addr="em0|10.1.0.121/24" test_121
+```
+
+Run selected commands
 
 ```bash
-shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_runner \
-       -e freebsd_iocage_runner_exec='fetch_134R,create_134R_101,vnet_101'
+shell> ansible-playbook iocage.yml -t freebsd_iocage_stat,freebsd_iocage_runner \
+                                   -e freebsd_iocage_stat=true \
+                                   -e freebsd_iocage_runner=true \
+       -e freebsd_iocage_runner_exec='fetch_141R,create_141R_121,net_121'
 ```
+
+List jails on the remote host
+
+```bash
+shell> iocage list -l
++------+----------+------+-------+------+--------------+-------------------+-----+----------+----------+
+| JID  |   NAME   | BOOT | STATE | TYPE |   RELEASE    |        IP4        | IP6 | TEMPLATE | BASEJAIL |
++======+==========+======+=======+======+==============+===================+=====+==========+==========+
+| None | test_121 | off  | down  | jail | 14.1-RELEASE | em0|10.1.0.121/24 | -   | -        | no       |
++------+----------+------+-------+------+--------------+-------------------+-----+----------+----------+
+```
+
 
 ### Idempotent commands
 
@@ -345,8 +372,8 @@ Run the tasks *freebsd_iocage_stat* if the dictionary
 *iocage_list_jails* is needed. Then, this play is idempotent
 
 ```bash
-shell> ansible-playbook freebsd-iocage.yml -t freebsd_iocage_stat,freebsd_iocage_runner \
-                                           -e freebsd_iocage_runner_exec=start_101
+shell> ansible-playbook iocage.yml -t freebsd_iocage_stat,freebsd_iocage_runner \
+                                   -e freebsd_iocage_runner_exec=start_101
 ```
 
 Note that matching options *creates* and *removes* will be reported as

@@ -5,6 +5,24 @@ vbotka.freebsd_iocage 1.0 Release Notes
 .. contents:: Topics
 
 
+0.2.3
+=====
+
+Release Summary
+---------------
+Feature update.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Update README.
+* Add block/rescue to tasks/pkg.yml
+* Update tasks/sanity.yml; Report list actions_active
+* Update all keywords environment with the variable freebsd_iocage_env
+
+
 0.2.2
 =====
 
@@ -17,18 +35,12 @@ Major Changes
 
 * Add var freebsd_iocage_assert_quiet (default=true)
 * Update tasks/sanity.yml
-* Add var freebsd_iocage_data_fstab (default=false). Optionaly create
+* Add var freebsd_iocage_data_fstab (default=false). Optionally create
   fstab entry by ansible.posix.mount
 * Update tasks/data.yml
-* Add var freebsd_iocage_clean (default=false). Optionaly clean
+* Add var freebsd_iocage_clean (default=false). Optionally clean
   stopped jails.
 * Add tasks/clean.yml
-
-Minor Changes
--------------
-
-Breaking Changes / Porting Guide
---------------------------------
 
 
 0.2.1
