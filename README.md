@@ -1,6 +1,6 @@
 # freebsd_iocage
 
-[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-iocage.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-iocage)
+[![license](https://img.shields.io/badge/license-BSD-red.svg)](https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html)
 [![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-iocage)](https://github.com/vbotka/ansible-freebsd-iocage/tags)
 
 [Ansible role.](https://galaxy.ansible.com/ui/standalone/roles/vbotka/freebsd_iocage/) FreeBSD. Install, configure, and run iocage.
@@ -283,6 +283,7 @@ shell> ansible-playbook iocage.yml -t freebsd_iocage_rcconf \
                                    -e freebsd_iocage_stop=true \
 								   -e freebsd_iocage_enable=false
 ```
+
 
 ## Runner
 
