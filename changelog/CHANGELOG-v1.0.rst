@@ -18,6 +18,7 @@ Major Changes
 Minor Changes
 -------------
 * Update README.
+* Add quiet option to all assert tasks.
 
 
 0.2.3
