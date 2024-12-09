@@ -17,6 +17,7 @@ Major Changes
 
 Minor Changes
 -------------
+* Fix default freebsd_iocage_data_jails is empty.
 
 
 0.2.4
