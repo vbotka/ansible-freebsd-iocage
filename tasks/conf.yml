@@ -41,7 +41,7 @@
       vars:
         defaults_int: "{{ freebsd_iocage_defaults_current | dict2items |
                           selectattr('value', 'integer') |
-	                  map(attribute='key') }}"
+                          map(attribute='key') }}"
         update_int_k: "{{ freebsd_iocage_defaults_update.keys() | intersect(defaults_int) }}"
         update_int_v: "{{ update_int_k | map('extract', freebsd_iocage_defaults_update) }}"
       ansible.builtin.assert:
@@ -54,7 +54,7 @@
       vars:
         defaults_bool: "{{ freebsd_iocage_defaults_current | dict2items |
                            selectattr('value', 'in', ['on', 'off']) |
-	                   map(attribute='key') }}"
+                           map(attribute='key') }}"
         update_bool_k: "{{ freebsd_iocage_defaults_update.keys() | intersect(defaults_bool) }}"
         update_bool_v: "{{ update_bool_k | map('extract', freebsd_iocage_defaults_update) }}"
       ansible.builtin.assert:

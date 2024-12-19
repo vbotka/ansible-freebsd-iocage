@@ -5,6 +5,18 @@ vbotka.freebsd_iocage 1.0 Release Notes
 .. contents:: Topics
 
 
+0.3.1
+=====
+
+Release Summary
+---------------
+Maintenance update.
+
+Minor Changes
+-------------
+* Formatting of tasks improved.
+
+
 0.3.0
 =====
 

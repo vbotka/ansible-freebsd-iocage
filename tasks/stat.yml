@@ -28,8 +28,8 @@
     - name: "Stat: Set iocage_list"
       ansible.builtin.set_fact:
         iocage_list: "{{ dict(dataset_types |
-	                      zip(result.results |
-	                          map(attribute='stdout_lines'))) }}"
+                              zip(result.results |
+                                  map(attribute='stdout_lines'))) }}"
 
     - name: "Stat: Debug iocage_list freebsd_iocage_debug2={{ freebsd_iocage_debug2 }}"
       when: freebsd_iocage_debug2 | bool
@@ -41,8 +41,8 @@
         jails_name: "{{ iocage_list.jails | map('split') | map(attribute=1) }}"
       ansible.builtin.set_fact:
         iocage_list_jails: "{{ dict(jails_name |
-	                            zip(iocage_list.jails |
-	                                map('split') |
+                                    zip(iocage_list.jails |
+                                        map('split') |
                                         map('zip', freebsd_iocage_jail_header) |
                                         map('map', 'reverse') |
                                         map('community.general.dict'))) }}"

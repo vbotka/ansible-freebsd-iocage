@@ -30,8 +30,8 @@
       vars:
         runner_cmd_regex_set: '[\w|\s|\.|\-|:|=|/|"]'
         runner_cmd_not_iocage: "{{ freebsd_iocage_runner_list |
-	                           map('extract', freebsd_iocage_runner_cmd) | flatten |
-	                           rejectattr('cmd', 'regex', '^iocage ' ~ runner_cmd_regex_set ~ '*$') }}"
+                                   map('extract', freebsd_iocage_runner_cmd) | flatten |
+                                   rejectattr('cmd', 'regex', '^iocage ' ~ runner_cmd_regex_set ~ '*$') }}"
       ansible.builtin.assert:
         that: runner_cmd_not_iocage | length == 0
         quiet: "{{ freebsd_iocage_assert_quiet | bool }}"
