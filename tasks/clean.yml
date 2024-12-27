@@ -32,8 +32,8 @@
     - name: "Clean: Assert all jails for cleaning are down."
       vars:
         not_down_jails: "{{ iocage_list_jails | dict2items |
-	                    selectattr('key', 'in', freebsd_iocage_clean_jails) |
-	                    selectattr('value.state', 'ne', 'down') |
+                            selectattr('key', 'in', freebsd_iocage_clean_jails) |
+                            selectattr('value.state', 'ne', 'down') |
                             map(attribute='key') }}"
       ansible.builtin.assert:
         that: not_down_jails | length == 0
