@@ -5,11 +5,25 @@ vbotka.freebsd_iocage 1.0 Release Notes
 .. contents:: Topics
 
 
-0.4.0
-=====
+0.5.0
 
 Release Summary
 ---------------
+Feature update.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Add tasks facts.yml. Create script for custom facts.
+* Add default vars facts.yml
+* Add script icoage.facts
+* Update debug
+
+
+0.4.0
+=======
 Minor release 0.4.0
 
 
