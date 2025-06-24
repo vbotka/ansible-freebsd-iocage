@@ -16,6 +16,9 @@ Major Changes
 
 Minor Changes
 -------------
+* Updated Ansible to 2.18
+* Supported FreeBSD 13.4, 13.5, 14.2, 14.3
+* Added .gitignore
 
 
 0.5.1
