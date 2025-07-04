@@ -3,6 +3,8 @@
 [![license](https://img.shields.io/badge/license-BSD-red.svg)](https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html)
 [![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-iocage)](https://github.com/vbotka/ansible-freebsd-iocage/tags)
 
+This role is included in the collection [vbotka.freebsd](https://galaxy.ansible.com/ui/repo/published/vbotka/freebsd/) as [vbotka.freebsd.iocage](https://galaxy.ansible.com/ui/repo/published/vbotka/freebsd/content/role/iocage)
+
 [Ansible role.](https://galaxy.ansible.com/ui/standalone/roles/vbotka/freebsd_iocage/) FreeBSD. Install, configure, and run iocage.
 
 Feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-iocage/issues).
