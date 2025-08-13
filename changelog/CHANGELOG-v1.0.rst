@@ -5,6 +5,21 @@ vbotka.freebsd_iocage 1.0 Release Notes
 .. contents:: Topics
 
 
+0.5.4
+
+Release Summary
+---------------
+Add tasks pkglist.yml; Create list of files for iocage automatic
+package installation.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Add defaults/main/pkglist.yml
+
+
 0.5.3
 
 Release Summary
@@ -55,7 +70,7 @@ Minor Changes
 -------------
 * Add tasks facts.yml. Create script for custom facts.
 * Add default vars facts.yml
-* Add script icoage.facts
+* Add script iocage.facts
 * Update debug
 
 
