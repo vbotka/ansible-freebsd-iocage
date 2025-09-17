@@ -16,6 +16,7 @@ Major Changes
 
 Minor Changes
 -------------
+* By default, run listed commend if the attribute 'when' is missing.
 
 
 0.5.4
