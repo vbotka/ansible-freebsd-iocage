@@ -5,6 +5,21 @@ vbotka.freebsd_iocage 1.0 Release Notes
 .. contents:: Topics
 
 
+1.0.0
+
+Release Summary
+---------------
+
+Major Changes
+-------------
+* Meta: Ansible 2.19; FreeBSD 13.5, 14.2, and 14.3
+
+Minor Changes
+-------------
+* By default, run listed commend if the attribute 'when' is missing.
+* Fix conditions.
+
+
 0.5.4
 
 Release Summary

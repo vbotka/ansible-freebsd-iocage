@@ -39,7 +39,7 @@
         success_msg: "[OK]  All commands are iocage."
 
     - name: "Runner: Run listed commands."
-      when: item.when | d(omit)
+      when: item.when | d(true)
       environment: "{{ freebsd_iocage_runner_env }}"
       register: out
       failed_when: out.rc >= item.failed_rc | d(1) | int
