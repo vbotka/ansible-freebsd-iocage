@@ -7,7 +7,7 @@
   loop: "{{ freebsd_iocage_sysctl_update | dict2items }}"
 
 - name: Configure defaults.json
-  when: freebsd_iocage_defaults_update
+  when: freebsd_iocage_defaults_update | length > 0
   block:
 
     - name: "Conf: Stat defaults.json"
