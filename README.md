@@ -237,6 +237,37 @@ shell> ansible-playbook iocage.yml
 ```
 
 
+### Activation and the iocage dataset
+
+The command *iocage activate* doesn't create the *iocage* dataset. Run,
+for example, the command *iocage list* to create the dataset
+
+```console
+[root@host /home/admin]# iocage list
+Creating iocage/iocage
+Creating iocage/iocage/download
+Creating iocage/iocage/images
+Creating iocage/iocage/jails
+Creating iocage/iocage/log
+Creating iocage/iocage/releases
+Creating iocage/iocage/templates
+Default configuration missing, creating one
++-----+------+-------+---------+-----+
+| JID | NAME | STATE | RELEASE | IP4 |
++=====+======+=======+=========+=====+
++-----+------+-------+---------+-----+
+```
+
+Then, you can test the activated pool *iocage*
+
+```console
+shell> ansible-playbook iocage.yml -t freebsd_iocage_sanity \
+                                   -e freebsd_iocage_sanity_zfs_pool_active=true
+...
+host: ok=17   changed=0    unreachable=0    failed=0    skipped=9    rescued=0    ignored=0
+```
+
+
 ### Start iocage
 
 By default, the *iocage* service is enabled, but not started because
