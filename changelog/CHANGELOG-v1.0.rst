@@ -17,6 +17,7 @@ Major Changes
 
 Minor Changes
 -------------
+* Put ansible facts into the dictionary ansible_facts
 
 
 1.0.0
