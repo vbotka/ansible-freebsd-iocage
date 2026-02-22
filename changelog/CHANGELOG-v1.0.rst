@@ -11,6 +11,13 @@ Release Summary
 ---------------
 Ansible 2.20 upgrade.
 
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Supported FreeBSD versions: 13.5, 14.3, 15.0
+
 
 1.1.0
 
@@ -20,7 +27,6 @@ Maintenance update.
 
 Major Changes
 -------------
-* Supported FreeBSD versions: 13.5, 14.3, 15.0
 
 Minor Changes
 -------------
