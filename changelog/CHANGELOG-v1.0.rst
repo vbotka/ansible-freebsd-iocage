@@ -5,7 +5,7 @@ vbotka.freebsd_iocage 1.0 Release Notes
 .. contents:: Topics
 
 
-1.1.0
+1.2.0
 
 Release Summary
 ---------------
@@ -13,11 +13,24 @@ Ansible 2.20 upgrade.
 
 Major Changes
 -------------
-* Supported FreeBSD versions: 13.5, 14.3, 15.0
 
 Minor Changes
 -------------
-* Put ansible facts into the dictionary ansible_facts
+* Supported FreeBSD versions: 13.5, 14.3, 15.0
+
+
+1.1.0
+
+Release Summary
+---------------
+Maintenance update.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Put variables ansible_* into the dictionary ansible_facts
 
 
 1.0.0
